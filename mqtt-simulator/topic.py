@@ -4,6 +4,7 @@ import threading
 import paho.mqtt.client as mqtt
 from data_classes import BrokerSettings, ClientSettings
 from topic_data import TopicDataNumber, TopicDataBool, TopicDataRawValue, TopicDataMathExpression
+import logging
 
 class Topic(threading.Thread):
     def __init__(self, broker_settings: BrokerSettings, topic_url: str, topic_data: list[object], topic_payload_root: object, client_settings: ClientSettings):
@@ -58,7 +59,7 @@ class Topic(threading.Thread):
             time.sleep(self.client_settings.time_interval)
 
     def on_publish(self, client, userdata, result):
-        print(f'[{time.strftime("%H:%M:%S")}] Data published on: {self.topic_url}')
+        logging.info(f'[{time.strftime("%H:%M:%S")}] Data published on: {self.topic_url}')
 
     def generate_payload(self):
         payload = {}
